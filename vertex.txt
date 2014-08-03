@@ -1,0 +1,30 @@
+
+precision highp float;
+
+uniform float time;
+uniform mat4 modelview;
+uniform mat4 projection;
+
+attribute vec3 position;
+attribute float alpha;
+attribute vec2 lightcoord;
+attribute vec2 texcoord;
+attribute vec3 normal;
+
+varying vec2 vTexcoord;
+varying vec2 vLightcoord;
+varying vec3 vNormal;
+varying float alpha_;
+
+void main() {
+	alpha_ = alpha;
+	//gl_Position = projection * modelview * vec4(position + normal * sin(length(position) + time * 10.0), 1.0);
+	gl_Position = projection * modelview * vec4(position, 1.0);
+	gl_PointSize = 10.0 / (1.0 + gl_Position.w * 0.1);
+	//vTexcoord = vec2(-position.x, position.y) * 0.25;
+	vTexcoord = texcoord;
+	vLightcoord = lightcoord;
+	//vec3 newpos = vec3(position.x + sin(time) * 10.0, position.y + cos(time) * 5.0, position.z + 100.0 - time * 10.0) / 100.0;
+	//gl_Position = vec4(newpos, newpos.z);
+	vNormal = normal;
+}
